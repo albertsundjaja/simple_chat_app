@@ -14,6 +14,8 @@ Feature of the app:
 * Users can see up to 20 last messages
 * User will be notified when a new user is connected/disconnected
 
+![demo](https://github.com/albertsundjaja/simple_chat_app/blob/master/docs/demo.gif)
+
 ## How to run the app
 
 #### Install Docker and Docker Compose
