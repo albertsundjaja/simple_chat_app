@@ -22,9 +22,29 @@ Feature of the app:
 
 To make it easier to deploy, docker and docker-compose is the preferred method of running this app
 
+Please install docker and docker-compose by following the guide at https://docs.docker.com/get-docker/ and https://docs.docker.com/compose/install/
+
 #### Spin up the containers
 
-Simply run in the cloned folder
+Clone the project
+
+```
+https://github.com/albertsundjaja/simple_chat_app.git
+```
+
+Go to the project folder
+
+```
+cd simple_chat_app
+```
+
+Build the docker containers/images
+
+```
+docker-compose build --no-cache
+```
+
+Run the containers
 
 ```
 docker-compose up -d
