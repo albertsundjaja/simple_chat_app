@@ -1,0 +1,14 @@
+version: '3.7'
+
+services:
+  client:
+    container_name: client
+    build: ./src/client
+    ports:
+      - "3000:3000"
+
+  ws_server:
+    container_name: ws_server
+    build: ./src/ws_server
+    ports:
+      - "8080:8080"
