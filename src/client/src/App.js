@@ -15,10 +15,10 @@ const useStyles = makeStyles({
     height: "10%"
   },
   msgContainer: {
-    height: "80%"
+    height: "70%"
   },
   txtContainer: {
-    height: "10%"
+    height: "20%"
   },
   ulNoBullet: {
     listStyleType: "none"
@@ -54,14 +54,23 @@ const initWs = (username, callbacks) => {
 
 function App() {
   const classes = useStyles();
+  // the username currently online
   const [username, setUsername] = useState('');
+  // the temp storage for sending new message
   const [newText, setNewText] = useState('');
+  // the history of messages
   const [messages, setMessages] = useState([]);
+  // the username of connected users
   const [users, setUsers] = useState([]);
+  // app startup modal, prompt user for username
   const [showModal, setShowModal] = useState(true);
+  // simple error checking, show error if user click connect without specifying username
   const [usernameError, setUsernameError] = useState('');
+  // snackbar notification
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [snackbarData, setSnackbarData] = useState({});
+
+  // handler for event userConnected
   const userConnected = (data) => {
     // dont show alert for own username
     if (data.connected.username != username) {
@@ -74,6 +83,7 @@ function App() {
     }
   }
 
+  // handler for event userDisconnected
   const userDisconnected = (data) => {
     setUsers(data.newUsers);
     setSnackbarData({
@@ -83,6 +93,7 @@ function App() {
     setShowSnackbar(true);
   }
 
+  // connect to WS, should be called on connect
   const connectWs = () => {
     setUsernameError('');
 
@@ -101,10 +112,18 @@ function App() {
     }
   }
 
+  // handler for new message (when user click send)
   const handleNewMessage = () => {
     if (newText) {
       clientWs.emit("newMessage", {content: newText});
       setNewText('');
+    }
+  }
+
+  // send text if user pressed enter
+  const handleEnterNewNext = (e) => {
+    if (e.key == "Enter") {
+      handleNewMessage();
     }
   }
 
@@ -166,11 +185,13 @@ function App() {
               </ul>
             </Box>
           </Grid>
-          <Grid className={classes.txtContainer} container item xs={12}>
-            <Box flexGrow={1}>
-              <TextField variant="outlined" fullWidth value={newText} onChange={(e) => setNewText(e.target.value)}/>
-            </Box>
-            <Button variant="contained" color="primary" onClick={() => handleNewMessage()}>Send</Button>
+          <Grid className={classes.txtContainer} item xs={12}>
+            <Grid container direction="row">
+                <Box flexGrow={1}>
+                  <TextField variant="outlined" fullWidth placeholder="Enter message" value={newText} onKeyPress={(e) => handleEnterNewNext(e)} onChange={(e) => setNewText(e.target.value)}/>
+                </Box>
+                <Button variant="contained" color="primary" onClick={() => handleNewMessage()}>Send</Button>
+            </Grid>
           </Grid>
       </Grid>
     </Container>
